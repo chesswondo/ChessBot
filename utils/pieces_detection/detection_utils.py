@@ -74,8 +74,8 @@ def filter_detections(raw_result: dict, iou_threshold: float, score_threshold: f
 
     # apply mask
     result = raw_result.copy()
-    result['predictions'][0]['labels'] = list(labels[mask])
-    result['predictions'][0]['scores'] = list(scores[mask])
-    result['predictions'][0]['bboxes'] = list(bboxes[mask])
+    result['predictions'][0]['labels'] = labels[mask]
+    result['predictions'][0]['scores'] = scores[mask]
+    result['predictions'][0]['bboxes'] = bboxes[mask]
 
     return result
