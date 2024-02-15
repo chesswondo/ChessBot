@@ -1,6 +1,5 @@
 import numpy as np
 from typing import List
-from abc import abstractmethod
 
 pieces_names = {
     'black-bishop': 'b',
@@ -55,12 +54,13 @@ class ChessBoard():
                 piece_bbox = self.bboxes[i]
                 x, y = self.find_field_by_coordinates(board_bbox, piece_bbox)
                 label = pieces_names[pieces_indexes[self.labels[i]]]
-                if max(x, y) < 8:
+                if max(x, y) < 8 and min(x, y) >= 0:
                     chess_board[y][x] = label
 
         return self.filled_board_to_fen(chess_board)
 
-    def find_field_by_coordinates(self, board_bbox: np.ndarray, piece_bbox: np.ndarray) -> np.ndarray:
+    @staticmethod
+    def find_field_by_coordinates(board_bbox: np.ndarray, piece_bbox: np.ndarray) -> np.ndarray:
         piece_center = ((piece_bbox[2]-piece_bbox[0])//2+piece_bbox[0],
                         (piece_bbox[3]-piece_bbox[1])//2+piece_bbox[1])
         x_field = int((piece_center[0]-board_bbox[0])/(board_bbox[2]-board_bbox[0])*8)
@@ -75,10 +75,11 @@ class ChessBoard():
             if i != 7:
                 res_fen += '/'
         
-        res_fen += ' w KQkq - 0 1'
+        res_fen += ' b - - 0 30'
         return res_fen
 
-    def chess_row_to_fen_row(self, chess_row: np.ndarray) -> str:
+    @staticmethod
+    def chess_row_to_fen_row(chess_row: np.ndarray) -> str:
         result_row = ""
         empty_count = 0
         for i in range(8):

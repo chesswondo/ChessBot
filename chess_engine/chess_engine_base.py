@@ -6,5 +6,9 @@ class ChessEngineBase(ABC):
         self.config = config["chess_engine"]
 
     @abstractmethod
-    def best_move(board, color: bool):
-        '''finds best move in certain position'''
+    def process(self, fen_position: str) -> None:
+        '''analisys logic'''
+
+    #@abstractmethod
+    #def best_move(self, board, color: bool):
+    #    '''finds best move in certain position'''
