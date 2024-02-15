@@ -6,9 +6,9 @@ data_root = 'dataset/chess_net/' # dataset root
 train_batch_size_per_gpu = 4
 train_num_workers = 1
 
-max_epochs = 20
+max_epochs = 200
 stage2_num_epochs = 1
-base_lr = 0.00008
+base_lr = 0.00005
 
 metainfo = {
     'classes': ('pieces', 'bishop', 'black-bishop', 'black-king', 'black-knight',
@@ -87,7 +87,7 @@ default_hooks = dict(
     checkpoint=dict(
         interval=5,
         max_keep_ckpts=2,  # only keep latest 2 checkpoints
-        save_best='auto'
+        save_best='coco/bbox_mAP'
     ),
     logger=dict(type='LoggerHook', interval=5))
 
@@ -99,7 +99,8 @@ custom_hooks = [
 ]
 
 # load COCO pre-trained weight
-load_from = './assets/models/pieces_detection/rtmdet-tiny/rtmdet_tiny_8xb32-300e_coco_20220902_112414-78e30dcc.pth'
+#load_from = './assets/models/pieces_detection/rtmdet-tiny/rtmdet_tiny_8xb32-300e_coco_20220902_112414-78e30dcc.pth'
+load_from = './work_dirs/simple_config/best_coco_bbox_mAP_epoch_19.pth'
 
 train_cfg = dict(type='EpochBasedTrainLoop', max_epochs=max_epochs, val_interval=1)
 visualizer = dict(vis_backends=[dict(type='LocalVisBackend'),dict(type='TensorboardVisBackend')])
