@@ -1,8 +1,0 @@
-{
-    "chess_engine": {
-        "engine_type": "stockfish"
-    },
-    "pieces_detection": {
-        "detection_type": "rtmdet"
-    }
-}

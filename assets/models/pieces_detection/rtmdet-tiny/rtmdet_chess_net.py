@@ -3,12 +3,12 @@ _base_ = 'mmdet::rtmdet/rtmdet_tiny_8xb32-300e_coco.py'
 
 data_root = 'dataset/chess_net/' # dataset root
 
-train_batch_size_per_gpu = 4
+train_batch_size = 4
 train_num_workers = 1
 
 max_epochs = 200
 stage2_num_epochs = 1
-base_lr = 0.00005
+base_lr = 0.0005
 
 metainfo = {
     'classes': ('pieces', 'bishop', 'black-bishop', 'black-king', 'black-knight',
@@ -19,7 +19,7 @@ metainfo = {
 num_classes = len(metainfo['classes'])
 
 train_dataloader = dict(
-    batch_size=train_batch_size_per_gpu,
+    batch_size=train_batch_size,
     num_workers=train_num_workers,
     dataset=dict(
         data_root=data_root,
@@ -70,7 +70,7 @@ train_pipeline_stage2 = [
         keep_ratio=True),
     dict(type='RandomCrop', crop_size=(640, 640)),
     dict(type='YOLOXHSVRandomAug'),
-    dict(type='RandomFlip', prob=0.5),
+    #dict(type='RandomFlip', prob=0.5),
     dict(type='Pad', size=(640, 640), pad_val=dict(img=(114, 114, 114))),
     dict(type='PackDetInputs')
 ]
