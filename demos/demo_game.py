@@ -7,9 +7,7 @@ from IPython.display import display
 import chess
 
 from utils.pieces_detection.detection_utils import filter_detections, ChessBoard
-from utils.pieces_detection.visualization_utils import draw_bboxes
 from chess_engine.stockfish.chess_engine_stockfish import ChessEngineStockfish
-from utils.pieces_detection.detection_utils import pieces_indexes
 from mmdet.apis import DetInferencer
 from utils.demo_utils import load_config
 
