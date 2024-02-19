@@ -1,4 +1,4 @@
 {
     "parameters_path": "assets/models/pieces_detection/rtmdet-tiny/rtmdet_chess_net.py",
-    "checkpoint_path": "assets/models/pieces_detection/rtmdet-tiny/best_coco_bbox_mAP.pth"
+    "checkpoint_path": "assets/models/pieces_detection/rtmdet-tiny/best_coco_bbox_mAP_epoch_157.pth"
 }
