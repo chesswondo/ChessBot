@@ -8,13 +8,11 @@ import chess
 
 from utils.pieces_detection.detection_utils import filter_detections
 from utils.pieces_detection.chess_board import ChessBoard
-from chess_engine.stockfish.chess_engine_stockfish import ChessEngineStockfish
+from chess_engine.create_engine import create_chess_engine
 from mmdet.apis import DetInferencer
-from utils.demo_utils import load_config
+from utils.common_utils import load_config
 
 def run_chess_demo(
-        #camera: int,
-        #video: str,
         config: dict
         ) -> None:
     '''Function to run chess game demo'''
@@ -46,9 +44,8 @@ def run_chess_demo(
             board = chess.Board(fen_position)
             display(board)
 
-            stockfish_engine = ChessEngineStockfish({"chess_engine": None})
+            stockfish_engine = create_chess_engine(config)
             stockfish_engine.process(fen_position)
-            #cv2.imshow('screen', np.array(sct_img))
 
         num_frame += 1
         if (cv2.waitKey(1) & 0xFF) == ord('q'):
