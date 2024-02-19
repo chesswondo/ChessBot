@@ -38,14 +38,14 @@ def run_chess_demo(
             result = filter_detections(inferencer(sct_img), 0.1, 0.3)
             
             chess_board = ChessBoard(result['predictions'][0]['labels'], result['predictions'][0]['bboxes'])
-            fen_position = chess_board.detections_to_fen()
-            print(fen_position)
+            (fen_position_white, fen_position_black) = chess_board.detections_to_fen()
 
-            board = chess.Board(fen_position)
+            board = chess.Board(fen_position_white)
             display(board)
 
             stockfish_engine = create_chess_engine(config)
-            stockfish_engine.process(fen_position)
+            stockfish_engine.process(fen_position_white)
+            stockfish_engine.process(fen_position_black)
 
         num_frame += 1
         if (cv2.waitKey(1) & 0xFF) == ord('q'):

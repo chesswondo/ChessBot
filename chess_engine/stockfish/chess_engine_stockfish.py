@@ -13,6 +13,9 @@ class ChessEngineStockfish(ChessEngineBase):
         if stockfish.is_fen_valid(fen_position):
             self.position = fen_position
             stockfish.set_fen_position(fen_position)
-            print("The best move for black is:", stockfish.get_best_move())
+            if 'w' in fen_position:
+                print("The best move for white is:", stockfish.get_best_move())
+            else:
+                print("The best move for black is:", stockfish.get_best_move())
         else:
             print("Sorry, cannot recognize the position")

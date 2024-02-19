@@ -1,4 +1,5 @@
 import numpy as np
+from typing import Tuple
 
 pieces_names = {
     'black-bishop': 'b',
@@ -39,7 +40,7 @@ class ChessBoard():
         self.labels = labels
         self.bboxes = bboxes
 
-    def detections_to_fen(self) -> str:
+    def detections_to_fen(self) -> Tuple[str, str]:
         '''
         Function that converts given image to the FEN position.
         '''
@@ -68,15 +69,17 @@ class ChessBoard():
 
         return x_field, y_field
     
-    def filled_board_to_fen(self, chess_board: np.ndarray):
+    def filled_board_to_fen(self, chess_board: np.ndarray) -> Tuple[str, str]:
         res_fen = ""
         for i in range(8):
             res_fen += self.chess_row_to_fen_row(chess_board[:][i])
             if i != 7:
                 res_fen += '/'
         
-        res_fen += ' b - - 0 30'
-        return res_fen
+        res_fen_white = res_fen + ' w - - 0 30'
+        res_fen_black = res_fen + ' b - - 0 30'
+        
+        return (res_fen_white, res_fen_black)
 
     @staticmethod
     def chess_row_to_fen_row(chess_row: np.ndarray) -> str:
