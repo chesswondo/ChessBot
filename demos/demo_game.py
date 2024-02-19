@@ -6,7 +6,8 @@ from mss import mss
 from IPython.display import display
 import chess
 
-from utils.pieces_detection.detection_utils import filter_detections, ChessBoard
+from utils.pieces_detection.detection_utils import filter_detections
+from utils.pieces_detection.chess_board import ChessBoard
 from chess_engine.stockfish.chess_engine_stockfish import ChessEngineStockfish
 from mmdet.apis import DetInferencer
 from utils.demo_utils import load_config
@@ -35,7 +36,7 @@ def run_chess_demo(
         sct_img = np.array(sct.grab(bounding_box))
         sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
         
-        if num_frame % 300 == 0:
+        if num_frame % 100 == 0:
             result = filter_detections(inferencer(sct_img), 0.1, 0.3)
             
             chess_board = ChessBoard(result['predictions'][0]['labels'], result['predictions'][0]['bboxes'])
