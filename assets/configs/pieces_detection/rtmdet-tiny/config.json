@@ -1,4 +1,6 @@
 {
     "parameters_path": "assets/models/pieces_detection/rtmdet-tiny/rtmdet_chess_net.py",
-    "checkpoint_path": "assets/models/pieces_detection/rtmdet-tiny/best_coco_bbox_mAP_epoch_186.pth"
+    "checkpoint_path": "assets/models/pieces_detection/rtmdet-tiny/best_coco_bbox_mAP_epoch_186.pth",
+    "iou_threshold": 0.1,
+    "score_threshold": 0.3
 }
