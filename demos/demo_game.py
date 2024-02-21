@@ -49,9 +49,6 @@ def run_chess_demo(
             stockfish_engine.process(fen_position_black)
 
         num_frame += 1
-        if (cv2.waitKey(1) & 0xFF) == ord('q'):
-            cv2.destroyAllWindows()
-            break
 
 
 def main():
