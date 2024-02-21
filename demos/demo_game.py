@@ -11,9 +11,11 @@ from utils.pieces_detection.chess_board import ChessBoard
 from chess_engine.create_engine import create_chess_engine
 from mmdet.apis import DetInferencer
 from utils.common_utils import load_config
+import torch
 
 def run_chess_demo(
-        config: dict
+        config: dict,
+        num_monitor: int,
         ) -> None:
     '''Function to run chess game demo'''
 
@@ -21,17 +23,16 @@ def run_chess_demo(
     model_script = model_config['parameters_path']
     model_checkpoint = glob.glob(model_config['checkpoint_path'])[0]
 
-    device='cpu'
+    device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 
     # Initialize the DetInferencer
     inferencer = DetInferencer(model_script, model_checkpoint, device)
-
-    bounding_box = {'top': 0, 'left': 0, 'width': 1920, 'height': 1080}
     sct = mss()
+    monitor = sct.monitors[num_monitor]
 
     num_frame = 0
     while True:
-        sct_img = np.array(sct.grab(bounding_box))
+        sct_img = np.array(sct.grab(monitor))
         sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
         
         if num_frame % config['detect_every_n_frames'] == 0:
@@ -58,12 +59,16 @@ def main():
     parser.add_argument(
         "--config", help="Path to config file", required=True, dest="config"
     )
-    args = parser.parse_args()
+    parser.add_argument(
+        "--monitor", help="Number of monitor you'll use", required=False, default=1, dest="monitor"
+    )
 
+    args = parser.parse_args()
     config = load_config(args.config)
 
     run_chess_demo(
         config=config,
+        num_monitor=int(args.monitor)
     )
     
 
