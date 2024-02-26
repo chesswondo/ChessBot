@@ -2,14 +2,14 @@ import numpy as np
 from typing import List
 
 def intersection_over_union(bbox1: List[float], bbox2: List[float]) -> float:
-    """
+    '''
     Calculates the Intersection Over Union (IOU) metric for two bounding boxes.
     Bounding boxes must be specified as [x_min, y_min, x_max, y_max].
 
     : param bbox1: (List) - first bounding box coordinates.
     : param bbox2: (List) - second bounding box coordinates.
     : return: (float) - the IOU metric as a float.
-    """
+    '''
     assert (
         len(bbox1) == 4 and len(bbox2) == 4
     ), "Bounding boxes must be in the format: [x_min, y_min, x_max, y_max]"

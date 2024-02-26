@@ -8,7 +8,3 @@ class ChessEngineBase(ABC):
     @abstractmethod
     def process(self, fen_position: str) -> None:
         '''analisys logic'''
-
-    #@abstractmethod
-    #def best_move(self, board, color: bool):
-    #    '''finds best move in certain position'''

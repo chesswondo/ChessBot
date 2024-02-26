@@ -17,7 +17,14 @@ def run_chess_demo(
         config: dict,
         num_monitor: int,
         ) -> None:
-    '''Function to run chess game demo'''
+    '''
+    Function to run chess game demo.
+    
+    : param config: (dict) - main config file.
+    : param num_monitor: (int) - number of monitor to track.
+
+    : return: (None) - this function doesn't return any value.
+    '''
 
     model_config = load_config(f'assets/configs/pieces_detection/{config["pieces_detection"]["detection_type"]}/config.json')
     model_script = model_config['parameters_path']
