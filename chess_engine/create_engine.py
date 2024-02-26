@@ -7,6 +7,7 @@ def create_chess_engine(config: dict) -> ChessEngineBase:
     Creates an instance of the chess_engine engine based on config.
     
     : param config: (dict) - main config file.
+    
     : return: (ChessEngineBase) - instance of the chess_engine engine.
     '''
 

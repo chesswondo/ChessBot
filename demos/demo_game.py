@@ -51,9 +51,9 @@ def run_chess_demo(
             board = chess.Board(fen_position_white)
             display(board)
 
-            stockfish_engine = create_chess_engine(config)
-            stockfish_engine.process(fen_position_white)
-            stockfish_engine.process(fen_position_black)
+            chess_engine = create_chess_engine(config)
+            chess_engine.process(fen_position_white)
+            chess_engine.process(fen_position_black)
 
         num_frame += 1
 

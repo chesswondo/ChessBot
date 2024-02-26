@@ -8,6 +8,7 @@ def intersection_over_union(bbox1: List[float], bbox2: List[float]) -> float:
 
     : param bbox1: (List) - first bounding box coordinates.
     : param bbox2: (List) - second bounding box coordinates.
+    
     : return: (float) - the IOU metric as a float.
     '''
     assert (
