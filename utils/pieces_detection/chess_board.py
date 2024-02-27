@@ -68,6 +68,9 @@ class ChessBoard():
                 if max(x, y) < 8 and min(x, y) >= 0:
                     chess_board[y][x] = label
 
+        if (chess_board == None).all():
+            raise ValueError
+
         return self.filled_board_to_fen(chess_board)
 
     @staticmethod

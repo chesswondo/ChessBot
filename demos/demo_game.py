@@ -21,26 +21,37 @@ def run_chess_demo(
 
     : return: (None) - this function doesn't return any value.
     '''
-
-    # Initialize the DetInferencer
     sct = mss()
-    monitor = sct.monitors[num_monitor]
+    try:
+        monitor = sct.monitors[num_monitor]
+
+    except Exception:
+        print("Cannot recognize the monitor. Please check your settings and monitor number.")
+        return
 
     num_frame = 0
     while True:
-        sct_img = np.array(sct.grab(monitor))
-        sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
+        try:
+            sct_img = np.array(sct.grab(monitor))
+            sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
+
+        except Exception:
+            print("Cannot grab an image from the monitor. Please check your settings.")
         
-        if num_frame % config['detect_every_n_frames'] == 0:
+        try:
+            if num_frame % config['detect_every_n_frames'] == 0:
 
-            detection_model = create_detection_engine(config)
-            (fen_position_white, fen_position_black) = detection_model.detect(sct_img)
-            chess_engine = create_chess_engine(config)
-            chess_engine.process(fen_position_white)
-            chess_engine.process(fen_position_black)
+                detection_model = create_detection_engine(config)
+                (fen_position_white, fen_position_black) = detection_model.detect(sct_img)
+                chess_engine = create_chess_engine(config)
+                chess_engine.process(fen_position_white)
+                chess_engine.process(fen_position_black)
 
-            board = chess.Board(fen_position_white)
-            display(board)
+                board = chess.Board(fen_position_white)
+                display(board)
+
+        except Exception:
+            print("Cannot recognize the board. Make sure it is on the correct monitor and fully visible.")
 
         num_frame += 1
 
