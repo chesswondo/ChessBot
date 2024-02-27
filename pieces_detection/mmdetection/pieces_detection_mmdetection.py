@@ -21,13 +21,14 @@ class PiecesDetectionMMDetection(PiecesDetectionBase):
         '''
         super().__init__(config)
 
-    def detect(self, image: numpy.ndarray) -> Tuple[str, str]:
+    def detect(self, image: numpy.ndarray, color: bool) -> str:
         '''
         Detects chess pieces on the given image.
         
         : param image: (numpy.ndarray) - image to make detections on it.
+        : color: (bool) - color which user plays.
 
-        : return: (None) - this function does not return any value.
+        : return: (str) - FEN-position from the given image.
         '''
         model_script = self.config['parameters_path']
         model_checkpoint = glob.glob(self.config['checkpoint_path'])[0]
@@ -36,5 +37,6 @@ class PiecesDetectionMMDetection(PiecesDetectionBase):
         inferencer = DetInferencer(model_script, model_checkpoint, device)
         result = filter_detections(inferencer(image), self.config['iou_threshold'], self.config['score_threshold'])
         
-        chess_board = ChessBoard(result['predictions'][0]['labels'], result['predictions'][0]['bboxes'])
+        chess_board = ChessBoard(result['predictions'][0]['labels'], result['predictions'][0]['bboxes'], color)
+        
         return chess_board.detections_to_fen()

@@ -37,22 +37,24 @@ pieces_indexes = {
 class ChessBoard():
     '''Class for chess board'''
 
-    def __init__(self, labels: np.ndarray, bboxes: np.ndarray) -> None:
+    def __init__(self, labels: np.ndarray, bboxes: np.ndarray, color: bool) -> None:
         '''Initializes an instance of ChessBoard.
     
         : param labels: (numpy.ndarray) - labels received from the model.
         : param bboxes: (numpy.ndarray) - bboxes received from the model.
+        : param color: (bool) - which color user play.
 
         : return: (None) - this function doesn't return any value.
         '''
         self.labels = labels
         self.bboxes = bboxes
+        self.color  = 'b' if color else 'w'
 
-    def detections_to_fen(self) -> Tuple[str, str]:
+    def detections_to_fen(self) -> str:
         '''
-        Function that converts given image to the FEN positions.
+        Function that converts given image to the FEN position.
 
-        : return: (Tuple[str, str]) - FEN positions for white and black.
+        : return: (str) - FEN position for chosen color.
         '''
         board_const = [i for i in pieces_indexes if pieces_indexes[i]=='chess-board'][0]
         board_index = np.where(self.labels==board_const)[0][0]
@@ -90,13 +92,13 @@ class ChessBoard():
 
         return x_field, y_field
     
-    def filled_board_to_fen(self, chess_board: np.ndarray) -> Tuple[str, str]:
+    def filled_board_to_fen(self, chess_board: np.ndarray) -> str:
         '''
         Auxiliary function that converts filled chess_board to FEN positions.
 
         : param chess_board: (numpy.ndarray) - filled chess board with pieces.
         
-        : return: (Tuple[str, str]) - FEN positions for black and white. 
+        : return: (str) - FEN positions for black and white. 
         '''
         res_fen = ""
         for i in range(8):
@@ -104,10 +106,9 @@ class ChessBoard():
             if i != 7:
                 res_fen += '/'
         
-        res_fen_white = res_fen + ' w - - 0 30'
-        res_fen_black = res_fen + ' b - - 0 30'
+        res_fen = res_fen + f' {self.color} - - 0 30'
         
-        return (res_fen_white, res_fen_black)
+        return res_fen
 
     @staticmethod
     def chess_row_to_fen_row(chess_row: np.ndarray) -> str:

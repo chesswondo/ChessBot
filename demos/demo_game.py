@@ -32,7 +32,6 @@ def run_chess_demo(
     
     program_interface = create_interface_engine(config)
     color = program_interface.get_color()
-    print(color)
 
     num_frame = 0
     while True:
@@ -47,12 +46,11 @@ def run_chess_demo(
             if num_frame % config['detect_every_n_frames'] == 0:
 
                 detection_model = create_detection_engine(config)
-                (fen_position_white, fen_position_black) = detection_model.detect(sct_img)
+                fen_position = detection_model.detect(sct_img, color)
                 chess_engine = create_chess_engine(config)
-                chess_engine.process(fen_position_white)
-                chess_engine.process(fen_position_black)
+                chess_engine.process(fen_position)
 
-                board = chess.Board(fen_position_white)
+                board = chess.Board(fen_position)
                 display(board)
 
         except Exception:

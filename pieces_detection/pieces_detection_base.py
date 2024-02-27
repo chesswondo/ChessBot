@@ -7,5 +7,5 @@ class PiecesDetectionBase(ABC):
         self.config = config
 
     @abstractmethod
-    def detect(self, image: numpy.ndarray) -> None:
+    def detect(self, image: numpy.ndarray) -> str:
         '''Detects chess_pieces on given image.'''
