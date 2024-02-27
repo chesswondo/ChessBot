@@ -3,7 +3,7 @@
         "engine_type": "stockfish"
     },
     "pieces_detection": {
-        "detection_type": "rtmdet-tiny"
+        "detection_type": "mmdetection"
     },
 
     "detect_every_n_frames": 100 

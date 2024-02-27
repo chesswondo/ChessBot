@@ -8,12 +8,12 @@ from utils.pieces_detection.detection_utils import filter_detections
 from pieces_detection.pieces_detection_base import PiecesDetectionBase
 from utils.pieces_detection.chess_board import ChessBoard
 
-class PiecesDetectionRtmdet(PiecesDetectionBase):
-    '''Class for pieces detection using rtmdet model.'''
+class PiecesDetectionMMDetection(PiecesDetectionBase):
+    '''Class for pieces detection using MMDetection model.'''
 
     def __init__(self, config: dict) -> None:
         '''
-        Initializes an instance of PiecesDetectionRtmdet.
+        Initializes an instance of PiecesDetectionMMDetection.
 
         : param config: (dict) - model configuration object.
         
