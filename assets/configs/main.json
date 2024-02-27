@@ -5,6 +5,9 @@
     "pieces_detection": {
         "detection_type": "mmdetection"
     },
+    "interface": {
+        "interface_type": "tkinter"
+    },
 
     "detect_every_n_frames": 100 
 }
