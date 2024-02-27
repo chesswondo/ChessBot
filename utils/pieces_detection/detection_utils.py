@@ -1,5 +1,22 @@
 import numpy as np
 from typing import List
+from enum import Enum
+
+class DetectionType(str, Enum):
+    '''
+    Enumeration for detection model types.
+
+    Possible values:
+    - DetectionType.MMDETECTION: "mmdetection"
+    '''
+
+    MMDETECTION = "mmdetection"
+
+    def __eq__(self, other):
+        return self.value == other
+
+    def __hash__(self):
+        return hash(self.value)
 
 def intersection_over_union(bbox1: List[float], bbox2: List[float]) -> float:
     '''
