@@ -70,6 +70,9 @@ class ChessBoard():
                 if max(x, y) < 8 and min(x, y) >= 0:
                     chess_board[y][x] = label
 
+        if self.color == 'b':
+            chess_board = np.rot90(chess_board, 2)
+
         if (chess_board == None).all():
             raise ValueError
 
