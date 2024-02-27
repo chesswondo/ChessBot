@@ -2,10 +2,10 @@ from abc import ABC, abstractmethod
 import numpy
 
 class PiecesDetectionBase(ABC):
-    '''Base class for pieces detection'''
+    '''Base class for pieces detection.'''
     def __init__(self, config: dict) -> None:
-        self.config = config["pieces_detection"]
+        self.config = config
 
     @abstractmethod
-    def detect(image: numpy.ndarray):
-        '''detects chess_pieces on given image'''
+    def detect(self, image: numpy.ndarray) -> None:
+        '''Detects chess_pieces on given image.'''

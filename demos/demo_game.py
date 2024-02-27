@@ -5,13 +5,14 @@ import glob
 from mss import mss
 from IPython.display import display
 import chess
+import torch
 
 from utils.pieces_detection.detection_utils import filter_detections
 from utils.pieces_detection.chess_board import ChessBoard
 from chess_engine.create_engine import create_chess_engine
 from mmdet.apis import DetInferencer
 from utils.common_utils import load_config
-import torch
+from pieces_detection.create_engine import create_detection_engine
 
 def run_chess_demo(
         config: dict,
@@ -26,14 +27,9 @@ def run_chess_demo(
     : return: (None) - this function doesn't return any value.
     '''
 
-    model_config = load_config(f'assets/configs/pieces_detection/{config["pieces_detection"]["detection_type"]}/config.json')
-    model_script = model_config['parameters_path']
-    model_checkpoint = glob.glob(model_config['checkpoint_path'])[0]
-
     device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 
     # Initialize the DetInferencer
-    inferencer = DetInferencer(model_script, model_checkpoint, device)
     sct = mss()
     monitor = sct.monitors[num_monitor]
 
@@ -43,17 +39,15 @@ def run_chess_demo(
         sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
         
         if num_frame % config['detect_every_n_frames'] == 0:
-            result = filter_detections(inferencer(sct_img), model_config['iou_threshold'], model_config['score_threshold'])
-            
-            chess_board = ChessBoard(result['predictions'][0]['labels'], result['predictions'][0]['bboxes'])
-            (fen_position_white, fen_position_black) = chess_board.detections_to_fen()
 
-            board = chess.Board(fen_position_white)
-            display(board)
-
+            detection_model = create_detection_engine(config)
+            (fen_position_white, fen_position_black) = detection_model.detect(sct_img)
             chess_engine = create_chess_engine(config)
             chess_engine.process(fen_position_white)
             chess_engine.process(fen_position_black)
+
+            board = chess.Board(fen_position_white)
+            display(board)
 
         num_frame += 1
 
