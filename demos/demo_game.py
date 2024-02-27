@@ -1,16 +1,11 @@
 import argparse
 import cv2
 import numpy as np
-import glob
 from mss import mss
 from IPython.display import display
 import chess
-import torch
 
-from utils.pieces_detection.detection_utils import filter_detections
-from utils.pieces_detection.chess_board import ChessBoard
 from chess_engine.create_engine import create_chess_engine
-from mmdet.apis import DetInferencer
 from utils.common_utils import load_config
 from pieces_detection.create_engine import create_detection_engine
 
@@ -26,8 +21,6 @@ def run_chess_demo(
 
     : return: (None) - this function doesn't return any value.
     '''
-
-    device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 
     # Initialize the DetInferencer
     sct = mss()
