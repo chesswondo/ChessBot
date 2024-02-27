@@ -6,8 +6,9 @@ from IPython.display import display
 import chess
 
 from chess_engine.create_engine import create_chess_engine
-from utils.common_utils import load_config
+from interface.create_engine import create_interface_engine
 from pieces_detection.create_engine import create_detection_engine
+from utils.common_utils import load_config
 
 def run_chess_demo(
         config: dict,
@@ -28,6 +29,10 @@ def run_chess_demo(
     except Exception:
         print("Cannot recognize the monitor. Please check your settings and monitor number.")
         return
+    
+    program_interface = create_interface_engine(config)
+    color = program_interface.get_color()
+    print(color)
 
     num_frame = 0
     while True:

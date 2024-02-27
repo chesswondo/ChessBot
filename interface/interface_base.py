@@ -6,5 +6,5 @@ class InterfaceBase(ABC):
         self.config = config
 
     @abstractmethod
-    def start(self) -> None:
+    def get_color(self) -> bool:
         '''Main interface logic.'''
