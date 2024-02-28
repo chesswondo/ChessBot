@@ -23,10 +23,13 @@ class InterfaceTkinter(InterfaceBase):
         def submit_choice():
             root.destroy()
 
+        def on_close():
+            pass
+
         # Create the main window
         root = tk.Tk()
         root.title("Choose a Color")
-        root.geometry("400x250")  # Set the window size
+        root.geometry("400x250")
 
         # Variable to store the selected color (using 0 for "white" and 1 for "black")
         selected_color = tk.IntVar(value=0)
@@ -47,6 +50,7 @@ class InterfaceTkinter(InterfaceBase):
         black_button.pack(pady=5)
         submit_button.pack(pady=15)
 
+        root.protocol("WM_DELETE_WINDOW", on_close)
         root.mainloop()
 
         return selected_color.get()
