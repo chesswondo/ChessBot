@@ -36,14 +36,10 @@ def run_chess_demo(
     num_frame = 0
     while True:
         try:
-            sct_img = np.array(sct.grab(monitor))
-            sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
-
-        except Exception:
-            print("Cannot grab an image from the monitor. Please check your settings.")
-        
-        try:
             if num_frame % config['detect_every_n_frames'] == 0:
+                
+                sct_img = np.array(sct.grab(monitor))
+                sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
 
                 detection_model = create_detection_engine(config)
                 fen_position = detection_model.detect(sct_img, color)
