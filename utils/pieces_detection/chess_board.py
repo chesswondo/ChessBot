@@ -34,6 +34,17 @@ pieces_indexes = {
     14: 'chess-board',
 }
 
+board_fields = {
+    'a': 0,
+    'b': 1,
+    'c': 2,
+    'd': 3,
+    'e': 4,
+    'f': 5,
+    'g': 6,
+    'h': 7,
+}
+
 class ChessBoard():
     '''Class for chess board'''
 
@@ -58,14 +69,14 @@ class ChessBoard():
         '''
         board_const = [i for i in pieces_indexes if pieces_indexes[i]=='chess-board'][0]
         board_index = np.where(self.labels==board_const)[0][0]
-        board_bbox = self.bboxes[board_index]
+        self.board_bbox = self.bboxes[board_index]
 
         chess_board = np.full((8, 8), None)
         num_detections = len(self.bboxes)
         for i in range(num_detections):
             if i != board_index:
                 piece_bbox = self.bboxes[i]
-                x, y = self.find_field_by_coordinates(board_bbox, piece_bbox)
+                x, y = self.find_field_by_coordinates(self.board_bbox, piece_bbox)
                 label = pieces_names[pieces_indexes[self.labels[i]]]
                 if max(x, y) < 8 and min(x, y) >= 0:
                     chess_board[y][x] = label
@@ -136,3 +147,27 @@ class ChessBoard():
                     result_row += str(empty_count)
 
         return result_row
+    
+    def chess_move_to_coordinates(self, move: str) -> Tuple[Tuple[int, int], Tuple[int, int]]:
+        '''
+        Convert chess move to screen coordinates.
+
+        : param move: (str) - chess move. Must be in format like "e2e4".
+
+        : return: (Tuple[Tuple[int, int], Tuple[int, int]]) - two pairs of coordinates on the screen.
+        '''
+        x1_board, y1_board = board_fields[move[0]], 8-int(move[1])
+        x2_board, y2_board = board_fields[move[2]], 8-int(move[3])
+
+        if self.color == 'b':
+            x1_board = 7-x1_board
+            x2_board = 7-x2_board
+            y1_board = 7-y1_board
+            y2_board = 7-y2_board
+
+        x1 = self.board_bbox[0] + (2*x1_board+1)/16*(self.board_bbox[2]-self.board_bbox[0])
+        y1 = self.board_bbox[1] + (2*y1_board+1)/16*(self.board_bbox[3]-self.board_bbox[1])
+        x2 = self.board_bbox[0] + (2*x2_board+1)/16*(self.board_bbox[2]-self.board_bbox[0])
+        y2 = self.board_bbox[1] + (2*y2_board+1)/16*(self.board_bbox[3]-self.board_bbox[1])
+
+        return ((int(x1), int(y1)), (int(x2), int(y2)))

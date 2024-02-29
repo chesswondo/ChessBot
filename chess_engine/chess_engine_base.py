@@ -6,5 +6,5 @@ class ChessEngineBase(ABC):
         self.config = config
 
     @abstractmethod
-    def process(self, fen_position: str) -> None:
+    def get_best_move(self, fen_position: str) -> str:
         '''Analisys logic.'''

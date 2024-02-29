@@ -9,5 +9,6 @@
         "interface_type": "tkinter"
     },
 
-    "detect_every_n_frames": 100 
+    "clicker": "on",
+    "detect_every_n_frames": 50 
 }

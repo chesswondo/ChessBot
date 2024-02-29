@@ -5,6 +5,7 @@ from mss import mss
 from IPython.display import display
 import chess
 
+from utils.clicker import MouseClicker
 from chess_engine.create_engine import create_chess_engine
 from interface.create_engine import create_interface_engine
 from pieces_detection.create_engine import create_detection_engine
@@ -32,22 +33,35 @@ def run_chess_demo(
     
     program_interface = create_interface_engine(config)
     color = program_interface.get_color()
+    clicker_config = load_config('assets/configs/clicker/config.json')
+    detection_model = create_detection_engine(config)
+    chess_engine = create_chess_engine(config)
+    clicker = MouseClicker(clicker_config)
+
+    current_fen = ""
 
     num_frame = 0
     while True:
+
+        sct_img = np.array(sct.grab(monitor))
         try:
             if num_frame % config['detect_every_n_frames'] == 0:
-                
-                sct_img = np.array(sct.grab(monitor))
-                sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
 
-                detection_model = create_detection_engine(config)
-                fen_position = detection_model.detect(sct_img, color)
-                chess_engine = create_chess_engine(config)
-                chess_engine.process(fen_position)
+                sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
+                (fen_position, chess_board) = detection_model.detect(sct_img, color)
+                best_move = chess_engine.get_best_move(fen_position)
+
+                if config['clicker'] == "on" and fen_position != current_fen:
+                    clicker_coordinates = chess_board.chess_move_to_coordinates(best_move)
+                    clicker.make_move(clicker_coordinates)
+                    sct_img = np.array(sct.grab(monitor))
+                    sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
+                    (fen_position, _) = detection_model.detect(sct_img, color)
 
                 board = chess.Board(fen_position)
                 display(board)
+
+                current_fen = fen_position
 
         except Exception:
             print("Cannot recognize the board. Make sure it is on the correct monitor and fully visible.")
