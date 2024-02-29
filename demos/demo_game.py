@@ -35,29 +35,32 @@ def run_chess_demo(
     color = program_interface.get_color()
     clicker_config = load_config('assets/configs/clicker/config.json')
 
+    current_fen = ""
+
     num_frame = 0
     while True:
 
         sct_img = np.array(sct.grab(monitor))
         sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
-        #try:
-        if num_frame % config['detect_every_n_frames'] == 0:
+        try:
+            if num_frame % config['detect_every_n_frames'] == 0:
 
-            detection_model = create_detection_engine(config)
-            (fen_position, chess_board) = detection_model.detect(sct_img, color)
-            chess_engine = create_chess_engine(config)
-            best_move = chess_engine.get_best_move(fen_position)
+                detection_model = create_detection_engine(config)
+                (fen_position, chess_board) = detection_model.detect(sct_img, color)
+                chess_engine = create_chess_engine(config)
+                best_move = chess_engine.get_best_move(fen_position)
 
-            if config['clicker'] == "on":
-                clicker_coordinates = chess_board.chess_move_to_coordinates(best_move)
-                clicker = MouseClicker(clicker_config)
-                clicker.make_move(clicker_coordinates)
+                if config['clicker'] == "on" and fen_position != current_fen:
+                    clicker_coordinates = chess_board.chess_move_to_coordinates(best_move)
+                    clicker = MouseClicker(clicker_config)
+                    clicker.make_move(clicker_coordinates)
 
-            board = chess.Board(fen_position)
-            display(board)
+                board = chess.Board(fen_position)
+                display(board)
+                current_fen = fen_position
 
-        #except Exception:
-        #    print("Cannot recognize the board. Make sure it is on the correct monitor and fully visible.")
+        except Exception:
+            print("Cannot recognize the board. Make sure it is on the correct monitor and fully visible.")
 
         num_frame += 1
 
