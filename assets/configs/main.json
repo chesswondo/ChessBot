@@ -10,5 +10,5 @@
     },
 
     "clicker": "on",
-    "detect_every_n_frames": 100 
+    "detect_every_n_frames": 50 
 }
