@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 import numpy
+from typing import Tuple
+from utils.pieces_detection.chess_board import ChessBoard
 
 class PiecesDetectionBase(ABC):
     '''Base class for pieces detection.'''
@@ -7,5 +9,5 @@ class PiecesDetectionBase(ABC):
         self.config = config
 
     @abstractmethod
-    def detect(self, image: numpy.ndarray) -> str:
+    def detect(self, image: numpy.ndarray) -> Tuple[str, ChessBoard]:
         '''Detects chess_pieces on given image.'''
