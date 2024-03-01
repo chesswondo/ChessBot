@@ -4,6 +4,7 @@ import numpy as np
 from mss import mss
 from IPython.display import display
 import chess
+import time
 
 from utils.clicker import MouseClicker
 from chess_engine.create_engine import create_chess_engine
@@ -33,14 +34,16 @@ def run_chess_demo(
     
     program_interface = create_interface_engine(config)
     color = program_interface.get_color()
+
     clicker_config = load_config('assets/configs/clicker/config.json')
+    clicker = MouseClicker(clicker_config)
+
     detection_model = create_detection_engine(config)
     chess_engine = create_chess_engine(config)
-    clicker = MouseClicker(clicker_config)
 
     current_fen = ""
 
-    num_frame = 0
+    num_frame = 1
     while True:
 
         sct_img = np.array(sct.grab(monitor))
@@ -54,6 +57,7 @@ def run_chess_demo(
                 if config['clicker'] == "on" and fen_position != current_fen:
                     clicker_coordinates = chess_board.chess_move_to_coordinates(best_move)
                     clicker.make_move(clicker_coordinates)
+                    time.sleep(0.1)
                     sct_img = np.array(sct.grab(monitor))
                     sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
                     (fen_position, _) = detection_model.detect(sct_img, color)
