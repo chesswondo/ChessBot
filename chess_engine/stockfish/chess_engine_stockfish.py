@@ -1,6 +1,6 @@
 from chess_engine.chess_engine_base import ChessEngineBase
 from stockfish import Stockfish
-from utils.common_utils import find_file_with_extension
+from utils.common_utils import find_file_except_extension
 
 class ChessEngineStockfish(ChessEngineBase):
     '''Class for chess engine using stockfish engine.'''
@@ -23,7 +23,7 @@ class ChessEngineStockfish(ChessEngineBase):
 
         : return: (str) - the best move suggestion.
         '''
-        program_path = find_file_with_extension(self.config['program_path'], '.exe')
+        program_path = find_file_except_extension(self.config['program_path'], '.txt')
         stockfish = Stockfish(program_path)
         if stockfish.is_fen_valid(fen_position):
             self.position = fen_position
