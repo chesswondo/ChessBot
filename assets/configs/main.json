@@ -8,6 +8,9 @@
     "interface": {
         "interface_type": "tkinter"
     },
+    "speech_recognition": {
+        "recognition_type": "speech_recognition"
+    },
 
     "use_clicker": true,
     "wait_after_click": 0.1,
