@@ -11,5 +11,5 @@
 
     "use_clicker": true,
     "wait_after_click": 0.1,
-    "detect_every_n_frames": 50 
+    "seconds_between_detections": 0.5
 }
