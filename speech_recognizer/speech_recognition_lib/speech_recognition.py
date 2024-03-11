@@ -35,6 +35,7 @@ class SpeechRecognizerLib(SpeechRecognizerBase):
             text = self.recognizer.recognize_google(audio)
             text = text.lower().replace(" ", "")
             print(f"You said: {text}")
+            return text
         except sr.UnknownValueError:
             print("Sorry, I couldn't understand that.")
         except sr.RequestError:

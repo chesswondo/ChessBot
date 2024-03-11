@@ -156,6 +156,9 @@ class ChessBoard():
 
         : return: (Tuple[Tuple[int, int], Tuple[int, int]]) - two pairs of coordinates on the screen.
         '''
+        if not is_move_valid(move):
+            raise ValueError
+
         x1_board, y1_board = board_fields[move[0]], 8-int(move[1])
         x2_board, y2_board = board_fields[move[2]], 8-int(move[3])
 
@@ -171,3 +174,20 @@ class ChessBoard():
         y2 = self.board_bbox[1] + (2*y2_board+1)/16*(self.board_bbox[3]-self.board_bbox[1])
 
         return ((int(x1), int(y1)), (int(x2), int(y2)))
+
+
+def is_move_valid(move: str) -> bool:
+    '''
+    Checks if given move is valid or not.
+    
+    : param move: (str) - given move.
+    
+    : return: (bool) - is it valid.
+    '''
+    if len(move) != 4: return False
+    if min(move[0], move[2]) < 'a' or max(move[0], move[2]) > 'h':
+        return False
+    if min(move[1], move[3]) < '1' or max(move[1], move[3]) > '8':
+        return False
+    
+    return True

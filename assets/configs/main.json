@@ -12,7 +12,7 @@
         "recognition_type": "speech_recognition"
     },
 
-    "use_clicker": true,
+    "use_clicker": false,
     "wait_after_click": 0.1,
     "seconds_between_detections": 0.5
 }
