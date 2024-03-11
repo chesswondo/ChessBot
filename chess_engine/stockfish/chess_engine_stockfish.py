@@ -20,7 +20,7 @@ class ChessEngineStockfish(ChessEngineBase):
         super().__init__(config)
         program_path = find_file_except_extension(self.config['program_path'], '.txt')
         self.stockfish = Stockfish(program_path)
-        if config["set_default_parameters"] == "no":
+        if not config["set_default_parameters"]:
             threads = max(int(os.cpu_count()*config["threads_percent"]), 1)
             hash = find_nearest_power_of_two(psutil.virtual_memory().total*config["hash_percent"]//(1024*1024))
             self.stockfish.set_depth(config["depth"])

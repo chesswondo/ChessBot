@@ -1,6 +1,6 @@
 {
     "program_path": "assets/models/chess_engine/stockfish",
-    "set_default_parameters": "no",
+    "set_default_parameters": false,
     "engine_level": 20,
     "depth": 20,
     "threads_percent": 0.5,

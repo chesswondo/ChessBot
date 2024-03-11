@@ -54,10 +54,10 @@ def run_chess_demo(
                 (fen_position, chess_board) = detection_model.detect(sct_img, color)
                 best_move = chess_engine.get_best_move(fen_position)
 
-                if config['clicker'] == "on" and fen_position != current_fen:
+                if config['use_clicker'] and fen_position != current_fen:
                     clicker_coordinates = chess_board.chess_move_to_coordinates(best_move)
                     clicker.make_move(clicker_coordinates)
-                    time.sleep(0.1)
+                    time.sleep(config['wait_after_click'])
                     sct_img = np.array(sct.grab(monitor))
                     sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
                     (fen_position, _) = detection_model.detect(sct_img, color)
