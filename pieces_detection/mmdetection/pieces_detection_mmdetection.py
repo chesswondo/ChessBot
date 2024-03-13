@@ -21,12 +21,12 @@ class PiecesDetectionMMDetection(PiecesDetectionBase):
         '''
         super().__init__(config)
 
-    def detect(self, image: numpy.ndarray, color: bool) -> Tuple[str, ChessBoard]:
+    def detect(self, image: numpy.ndarray, color: str) -> Tuple[str, ChessBoard]:
         '''
         Detects chess pieces on the given image.
         
         : param image: (numpy.ndarray) - image to make detections on it.
-        : color: (bool) - color which user plays.
+        : color: (str) - color which user plays.
 
         : return: (Tuple[str, ChessBoard]) - FEN-position from the given image and filled ChessBoard.
         '''

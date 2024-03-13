@@ -7,6 +7,7 @@ import chess
 import time
 
 from utils.clicker import MouseClicker
+from utils.interface_utils import ButtonValue
 from chess_engine.create_engine import create_chess_engine
 from interface.create_engine import create_interface_engine
 from pieces_detection.create_engine import create_detection_engine
@@ -36,6 +37,7 @@ def run_chess_demo(
     
     program_interface = create_interface_engine(config)
     color = program_interface.get_color()
+    program_mode = program_interface.get_program_mode()
 
     clicker_config = load_config('assets/configs/clicker/config.json')
     clicker = MouseClicker(clicker_config)
@@ -48,7 +50,7 @@ def run_chess_demo(
 
     while True:
         try:
-            if config['use_clicker']:
+            if program_mode == ButtonValue.AUTO_MODE:
                 sct_img = np.array(sct.grab(monitor))
                 sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
                 (fen_position, chess_board) = detection_model.detect(sct_img, color)

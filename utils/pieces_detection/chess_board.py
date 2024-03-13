@@ -1,5 +1,6 @@
 import numpy as np
 from typing import Tuple
+from utils.interface_utils import ButtonValue
 
 pieces_names = {
     'black-bishop': 'b',
@@ -48,7 +49,7 @@ board_fields = {
 class ChessBoard():
     '''Class for chess board'''
 
-    def __init__(self, labels: np.ndarray, bboxes: np.ndarray, color: bool) -> None:
+    def __init__(self, labels: np.ndarray, bboxes: np.ndarray, color: str) -> None:
         '''Initializes an instance of ChessBoard.
     
         : param labels: (numpy.ndarray) - labels received from the model.
@@ -59,7 +60,7 @@ class ChessBoard():
         '''
         self.labels = labels
         self.bboxes = bboxes
-        self.color  = 'b' if color else 'w'
+        self.color  = 'b' if color == ButtonValue.BLACK else 'w'
 
     def detections_to_fen(self) -> str:
         '''
