@@ -64,13 +64,10 @@ def run_chess_demo(
                     sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
                     (fen_position, _) = detection_model.detect(sct_img, color)
 
-                #board = chess.Board(fen_position)
-                #display(board)
-
                 current_fen = fen_position
                 time.sleep(config["seconds_between_detections"])
 
-            else:
+            elif program_mode == ButtonValue.SPEECH_RECOGNITION:
                 recorded_audio = speech_recognition_model.record()
                 recognized_text = speech_recognition_model.recognize(recorded_audio)
                 if is_move_valid(recognized_text):
@@ -80,6 +77,14 @@ def run_chess_demo(
                     clicker_coordinates = chess_board.chess_move_to_coordinates(recognized_text)
                     clicker.make_move(clicker_coordinates)
                     time.sleep(config['wait_after_click'])
+
+            else:
+                sct_img = np.array(sct.grab(monitor))
+                sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
+                (fen_position, chess_board) = detection_model.detect(sct_img, color)
+                best_move = chess_engine.get_best_move(fen_position)
+                board = chess.Board(fen_position)
+                display(board)
 
         except Exception:
             print("Cannot recognize the board. Make sure it is on the correct monitor and fully visible.")
