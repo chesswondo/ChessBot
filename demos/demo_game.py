@@ -50,19 +50,16 @@ def run_chess_demo(
 
     while True:
         try:
-            if program_mode == ButtonValue.AUTO_MODE:
-                sct_img = np.array(sct.grab(monitor))
-                sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
-                (fen_position, chess_board) = detection_model.detect(sct_img, color)
-                best_move = chess_engine.get_best_move(fen_position)
+            sct_img = np.array(sct.grab(monitor))
+            sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
+            (fen_position, chess_board) = detection_model.detect(sct_img, color)
 
+            if program_mode == ButtonValue.AUTO_MODE:
                 if fen_position != current_fen:
+                    best_move = chess_engine.get_best_move(fen_position)
                     clicker_coordinates = chess_board.chess_move_to_coordinates(best_move)
                     clicker.make_move(clicker_coordinates)
                     time.sleep(config['wait_after_click'])
-                    sct_img = np.array(sct.grab(monitor))
-                    sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
-                    (fen_position, _) = detection_model.detect(sct_img, color)
 
                 current_fen = fen_position
                 time.sleep(config["seconds_between_detections"])
@@ -71,17 +68,11 @@ def run_chess_demo(
                 recorded_audio = speech_recognition_model.record()
                 recognized_text = speech_recognition_model.recognize(recorded_audio)
                 if is_move_valid(recognized_text):
-                    sct_img = np.array(sct.grab(monitor))
-                    sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
-                    (fen_position, chess_board) = detection_model.detect(sct_img, color)
                     clicker_coordinates = chess_board.chess_move_to_coordinates(recognized_text)
                     clicker.make_move(clicker_coordinates)
                     time.sleep(config['wait_after_click'])
 
             else:
-                sct_img = np.array(sct.grab(monitor))
-                sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
-                (fen_position, chess_board) = detection_model.detect(sct_img, color)
                 best_move = chess_engine.get_best_move(fen_position)
                 board = chess.Board(fen_position)
                 display(board)
