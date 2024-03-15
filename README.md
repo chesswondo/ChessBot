@@ -55,3 +55,10 @@ mim install mmdet
 ```bash
 pip install -r requirements.txt
 ```
+
+## Usage
+To use the program, first navigate to project's directory. Than you can run the next script:
+```bash
+python demos/demo_game.py --config assets/configs/main.json --monitor 1
+```
+Here you can change the --monitor flag if you have several monitors and want to use an another one.
