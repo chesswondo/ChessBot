@@ -20,7 +20,7 @@ For more information, see
 
 #### 3. Create an empty virtual environment with conda:
 ```bash
-conda conda create --name chess_env python=3.11
+conda create --name chess_env python=3.11
 ```
 
 Python version 3.11 is required to avoid errors with newer version 3.12.
