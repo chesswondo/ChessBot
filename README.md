@@ -20,13 +20,38 @@ For more information, see
 
 #### 3. Create an empty virtual environment with conda:
 ```bash
-conda create -n chess_env
+conda conda create --name chess_env python=3.11
 ```
+
+Python version 3.11 is required to avoid errors with newer version 3.12.
 
 #### 4. Activate the conda environment:
 ```bash
 conda activate chess_env
 ```
 
-#### 5. _[Install PyTorch](https://pytorch.org/)_ according to your system.
-[![link](assets/readme_images/pytorch_installation.png)](https://mmcv.readthedocs.io/en/latest/get_started/installation.html)
+#### 5. _[Install PyTorch 2.2.0](https://pytorch.org/get-started/previous-versions/#v220)_ according to your system.
+[![link](assets/readme_images/pytorch_installation.png)](https://pytorch.org/get-started/previous-versions/#v220)
+
+Pytorch version 2.2.0 is also required to avoid errors.
+
+#### 6. Install Openmim (installation tool for MM libraries):
+```bash
+pip install openmim
+```
+
+#### 7. Install **MMCV**:
+```bash
+mim install mmcv
+```
+
+#### 8. Install **MMDetection**:
+
+```bash
+mim install mmdet
+```
+
+#### 9. Install the rest of the dependencies:
+```bash
+pip install -r requirements.txt
+```

@@ -77,8 +77,9 @@ def run_chess_demo(
                 board = chess.Board(fen_position)
                 display(board)
 
-        except Exception:
+        except Exception as e:
             print("Cannot recognize the board. Make sure it is on the correct monitor and fully visible.")
+            print(str(e))
 
 
 def main():
