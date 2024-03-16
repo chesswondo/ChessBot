@@ -85,7 +85,7 @@ def run_chess_demo(
 def main():
     parser = argparse.ArgumentParser(description="Run chess game demo")
     parser.add_argument(
-        "--config", help="Path to config file", required=True, dest="config"
+        "--config", help="Path to config file", required=False, default="assets/configs/main.json", dest="config"
     )
     parser.add_argument(
         "--monitor", help="Number of monitor you'll use", required=False, default=1, dest="monitor"
