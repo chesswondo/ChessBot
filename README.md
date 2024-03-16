@@ -1,5 +1,19 @@
 # ChessBot
 
+## About
+ChessBot is a program that can easily recognize the chess position from the screen in real-time mode.
+
+Currently it provides you three modes which you can use:
+
+1. You can choose the option to use stockfish 16.1 ([strong open source chess engine](https://stockfishchess.org/)) to analyze the position on your screen and to get suggestions about best move.
+2. If you're tired of using mouse to make moves, you can choose the speech recognition option and make moves, just calling them out loud in the format like e2e4.
+ChessBot will make moves using your mouse automatically.
+3. Currently last fun option is to use ChessBot as a real bot. You won't have to do anything, program will manage your pieces automatically using stockfish engine.
+
+### Notice:
+
+**Please, adhere to chess ethics and never use the last mode against other players. Is is just for fun, not for trick.**
+
 ## Installation
 
 #### 1. Clone the repository:
@@ -20,7 +34,7 @@ For more information, see
 
 #### 3. Create an empty virtual environment with conda:
 ```bash
-conda conda create --name chess_env python=3.11
+conda create --name chess_env python=3.11
 ```
 
 Python version 3.11 is required to avoid errors with newer version 3.12.
@@ -46,7 +60,6 @@ mim install mmcv
 ```
 
 #### 8. Install **MMDetection**:
-
 ```bash
 mim install mmdet
 ```
@@ -54,4 +67,22 @@ mim install mmdet
 #### 9. Install the rest of the dependencies:
 ```bash
 pip install -r requirements.txt
+```
+
+#### 10. Download stockfish:
+To use stockfish chess engine, download if from the [official website](https://stockfishchess.org/download/) according to your system and put it in the assets/models/chess_engine/stockfish folder.
+
+## Run
+To use the program, first navigate to project's directory. Than you can use the next script:
+```bash
+python ChessBot.py \
+  <option> --monitor monitor_number
+```
+
+Here you can change the --monitor flag if you have access to several monitors and want to use an another one.
+
+If it's not specified, program will use the default monitor.
+So your default command to run the program will look just like this:
+```bash
+python ChessBot.py
 ```
