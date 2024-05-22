@@ -11,7 +11,7 @@ def create_detection_engine(config: dict) -> PiecesDetectionBase:
     
     : return: (PiecesDetectionBase) - instance of the pieces detection engine.
     '''
-    model_config = load_config(f'assets/configs/pieces_detection/{config["pieces_detection"]["detection_type"]}/config.json')
+    model_config = load_config(f'../assets/configs/pieces_detection/{config["pieces_detection"]["detection_type"]}/config.json')
 
     if config["pieces_detection"]["detection_type"] == DetectionType.MMDETECTION:
         return PiecesDetectionMMDetection(model_config)

@@ -12,5 +12,5 @@ def create_speech_recognition_engine(config: dict) -> SpeechRecognizerBase:
     '''
 
     if config["speech_recognition"]["recognition_type"] == "speech_recognition":
-        recognition_config = load_config('assets/configs/speech_recognition/speech_recognition/config.json')
+        recognition_config = load_config('../assets/configs/speech_recognition/speech_recognition/config.json')
         return SpeechRecognizerLib(recognition_config)

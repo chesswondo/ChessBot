@@ -10,7 +10,7 @@ def create_interface_engine(config: dict) -> InterfaceBase:
     
     : return: (InterfaceBase) - instance of the interface engine.
     '''
-    interface_config = load_config(f'assets/configs/interface/{config["interface"]["interface_type"]}/config.json')
+    interface_config = load_config(f'../assets/configs/interface/{config["interface"]["interface_type"]}/config.json')
 
     if config["interface"]["interface_type"] == "tkinter":
         return InterfaceTkinter(interface_config)

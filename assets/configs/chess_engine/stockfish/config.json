@@ -1,5 +1,5 @@
 {
-    "program_path": "assets/models/chess_engine/stockfish",
+    "program_path": "../assets/models/chess_engine/stockfish",
     "set_default_parameters": false,
     "engine_level": 20,
     "depth": 20,
