@@ -67,10 +67,12 @@ def run_chess_demo(
             elif program_mode == ButtonValue.SPEECH_RECOGNITION:
                 recorded_audio = speech_recognition_model.record()
                 recognized_text = speech_recognition_model.recognize(recorded_audio)
-                if is_move_valid(recognized_text):
-                    clicker_coordinates = chess_board.chess_move_to_coordinates(recognized_text)
-                    clicker.make_move(clicker_coordinates)
-                    time.sleep(config['wait_after_click'])
+                for single_text in recognized_text:
+                    if is_move_valid(single_text):
+                        clicker_coordinates = chess_board.chess_move_to_coordinates(single_text)
+                        clicker.make_move(clicker_coordinates)
+                        time.sleep(config['wait_after_click'])
+                        break
 
             else:
                 best_move = chess_engine.get_best_move(fen_position)

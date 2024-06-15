@@ -1,4 +1,5 @@
-from typing import Any
+import re
+from typing import Any, List
 import speech_recognition as sr
 from speech_recognizer.speech_recognizer_base import SpeechRecognizerBase
 
@@ -25,17 +26,18 @@ class SpeechRecognizerLib(SpeechRecognizerBase):
             audio = self.recognizer.listen(source)
         return audio
 
-    def recognize(self, audio: Any) -> str:
+    def recognize(self, audio: Any) -> List[str]:
         '''Recognizes the given audio.
         
         : param audio: (Any) - recorded audio file.
         
-        : return: (str) - recognized text in it.'''
+        : return: (List[str]) - recognized text in it.'''
         try:
             text = self.recognizer.recognize_google(audio)
-            text = text.lower().replace(" ", "")
+            pattern = r'[^a-zA-Z0-9]'
+            text = re.sub(pattern, '', text).lower()
             print(f"You said: {text}")
-            return text
+            return [text]
         except sr.UnknownValueError:
             print("Sorry, I couldn't understand that.")
         except sr.RequestError:

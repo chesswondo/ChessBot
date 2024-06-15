@@ -7,3 +7,5 @@
 /demo.jpg
 /work_dirs
 /assets/models/chess_engine/stockfish/stockfish-windows-x86-64-avx2.exe
+/assets/models/speech_recognition
+/src/start.bat

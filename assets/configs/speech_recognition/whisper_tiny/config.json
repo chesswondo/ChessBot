@@ -1,0 +1,11 @@
+{
+    "model_name": "whisper_tiny",
+    "audio_name": "microphone_input",
+    "model_parameters": {
+        "num_beams": 5,
+        "max_length": 40,
+        "sample_rate": 16000,
+        "duration": 5,
+        "channels": 1
+    }
+}

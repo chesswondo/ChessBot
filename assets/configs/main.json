@@ -9,7 +9,7 @@
         "interface_type": "tkinter"
     },
     "speech_recognition": {
-        "recognition_type": "speech_recognition"
+        "recognition_type": "whisper_tiny"
     },
 
     "wait_after_click": 0.1,

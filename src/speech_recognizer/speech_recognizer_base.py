@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, List
 
 class SpeechRecognizerBase(ABC):
     '''Base class for speech recognition.'''
@@ -11,5 +11,5 @@ class SpeechRecognizerBase(ABC):
         '''Record audio from micro.'''
 
     @abstractmethod
-    def recognize(self, audio: Any) -> str:
+    def recognize(self, audio: Any) -> List[str]:
         '''Recognize the given audio.'''
