@@ -86,7 +86,7 @@ class ChessBoard():
             chess_board = np.rot90(chess_board, 2)
 
         if (chess_board == None).all():
-            raise ValueError
+            raise ValueError("Empty board.")
 
         return self.filled_board_to_fen(chess_board)
 
@@ -158,7 +158,7 @@ class ChessBoard():
         : return: (Tuple[Tuple[int, int], Tuple[int, int]]) - two pairs of coordinates on the screen.
         '''
         if not is_move_valid(move):
-            raise ValueError
+            raise ValueError("Invalid move. Cannot convert to coordinates.")
 
         x1_board, y1_board = board_fields[move[0]], 8-int(move[1])
         x2_board, y2_board = board_fields[move[2]], 8-int(move[3])
@@ -185,6 +185,9 @@ def is_move_valid(move: str) -> bool:
     
     : return: (bool) - is it valid.
     '''
+    if type(move) is not str:
+        raise TypeError("Got a move which is not string.")
+    
     if len(move) != 4: return False
     if min(move[0], move[2]) < 'a' or max(move[0], move[2]) > 'h':
         return False

@@ -44,15 +44,29 @@ def run_chess_demo(
 
     detection_model = create_detection_engine(config)
     chess_engine = create_chess_engine(config)
-    speech_recognition_model = create_speech_recognition_engine(config)
+    try:
+        speech_recognition_model = create_speech_recognition_engine(config)
+    except Exception as e:
+                print(f"Cannot initialize whisper ASR model. If it is the first time you are launching the program, \
+                    check your Internet connection. This is necessary to load and save model's weights. \
+                    Error message:\n{str(e)}")
 
     current_fen = ""
 
     while True:
         try:
-            sct_img = np.array(sct.grab(monitor))
-            sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
-            (fen_position, chess_board) = detection_model.detect(sct_img, color)
+            try:
+                sct_img = np.array(sct.grab(monitor))
+                sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
+            except Exception:
+                print("Cannot grab your monitor. Check your settings.")
+                return
+
+            try:
+                (fen_position, chess_board) = detection_model.detect(sct_img, color)
+            except Exception:
+                print("Cannot recognize the board. Make sure it is on the correct monitor and fully visible.")
+                continue
 
             if program_mode == ButtonValue.AUTO_MODE:
                 if fen_position != current_fen:
@@ -80,8 +94,7 @@ def run_chess_demo(
                 display(board)
 
         except Exception as e:
-            print("Cannot recognize the board. Make sure it is on the correct monitor and fully visible.")
-            print(str(e))
+            print(f"An unknown error occurred. Error message:\n{str(e)}")
 
 
 def main():

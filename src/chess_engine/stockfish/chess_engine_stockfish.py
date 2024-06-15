@@ -43,6 +43,6 @@ class ChessEngineStockfish(ChessEngineBase):
             else:
                 print("The best move for black is:", self.stockfish.get_best_move())
         else:
-            print("Sorry, cannot recognize the position")
+            raise Exception("Stockfish engine cannot recognize best move.")
 
         return self.stockfish.get_best_move()
