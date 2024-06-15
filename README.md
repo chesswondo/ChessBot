@@ -23,7 +23,7 @@ git clone https://github.com/chesswondo/ChessBot
 
 #### 2. Navigate to projects directory:
 ```bash
-cd ChessBot
+cd ChessBot/src
 ```
 
 Note that you will need to set pythonpath at this directory to use the modules.
