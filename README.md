@@ -73,7 +73,7 @@ pip install -r requirements.txt
 To use stockfish chess engine, download it from the [official website](https://stockfishchess.org/download/) according to your system and put an executable file in the assets/models/chess_engine/stockfish folder.
 
 ## Run
-To use the program, first navigate to project's directory. Than you can use the next script:
+To use the program, first navigate to project's directory. Then you can use the next script:
 ```bash
 python ChessBot.py \
   <option> --monitor monitor_number
