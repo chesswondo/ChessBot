@@ -4,7 +4,7 @@ from typing import Any, List
 class SpeechRecognizerBase(ABC):
     '''Base class for speech recognition.'''
     def __init__(self, config: dict) -> None:
-        self.config = config
+        self._config = config
 
     @abstractmethod
     def record(self) -> Any:

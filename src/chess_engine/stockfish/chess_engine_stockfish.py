@@ -18,14 +18,14 @@ class ChessEngineStockfish(ChessEngineBase):
         : return: (None) - this function does not return any value.
         '''
         super().__init__(config)
-        program_path = find_file_except_extension(self.config['program_path'], '.txt')
-        self.stockfish = Stockfish(program_path)
+        program_path = find_file_except_extension(self._config['program_path'], '.txt')
+        self._stockfish = Stockfish(program_path)
         if not config["set_default_parameters"]:
             threads = max(int(os.cpu_count()*config["threads_percent"]), 1)
             hash = find_nearest_power_of_two(psutil.virtual_memory().total*config["hash_percent"]//(1024*1024))
-            self.stockfish.set_depth(config["depth"])
-            self.stockfish.set_skill_level(config["engine_level"])
-            self.stockfish.update_engine_parameters({"Hash": hash, "Threads": threads})
+            self._stockfish.set_depth(config["depth"])
+            self._stockfish.set_skill_level(config["engine_level"])
+            self._stockfish.update_engine_parameters({"Hash": hash, "Threads": threads})
 
     def get_best_move(self, fen_position: str) -> str:
         '''
@@ -35,14 +35,14 @@ class ChessEngineStockfish(ChessEngineBase):
 
         : return: (str) - the best move suggestion.
         '''
-        if self.stockfish.is_fen_valid(fen_position):
+        if self._stockfish.is_fen_valid(fen_position):
             self.position = fen_position
-            self.stockfish.set_fen_position(fen_position)
+            self._stockfish.set_fen_position(fen_position)
             if 'w' in fen_position:
-                print("The best move for white is:", self.stockfish.get_best_move())
+                print("The best move for white is:", self._stockfish.get_best_move())
             else:
-                print("The best move for black is:", self.stockfish.get_best_move())
+                print("The best move for black is:", self._stockfish.get_best_move())
         else:
             raise Exception("Stockfish engine cannot recognize best move.")
 
-        return self.stockfish.get_best_move()
+        return self._stockfish.get_best_move()

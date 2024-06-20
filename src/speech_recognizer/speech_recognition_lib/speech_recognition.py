@@ -14,7 +14,7 @@ class SpeechRecognizerLib(SpeechRecognizerBase):
         : return: (None) - this function does not return any value.
         '''
         super().__init__(config)
-        self.recognizer = sr.Recognizer()
+        self._recognizer = sr.Recognizer()
 
     def record(self) -> Any:
         '''Records audio from micro.
@@ -23,7 +23,7 @@ class SpeechRecognizerLib(SpeechRecognizerBase):
         '''
         with sr.Microphone() as source:
             print("Listening...")
-            audio = self.recognizer.listen(source)
+            audio = self._recognizer.listen(source)
         return audio
 
     def recognize(self, audio: Any) -> List[str]:
@@ -33,7 +33,7 @@ class SpeechRecognizerLib(SpeechRecognizerBase):
         
         : return: (List[str]) - recognized text in it.'''
         try:
-            text = self.recognizer.recognize_google(audio)
+            text = self._recognizer.recognize_google(audio)
             pattern = r'[^a-zA-Z0-9]'
             text = re.sub(pattern, '', text).lower()
             print(f"You said: {text}")

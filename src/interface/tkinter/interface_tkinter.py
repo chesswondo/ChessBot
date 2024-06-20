@@ -19,7 +19,7 @@ class InterfaceTkinter(InterfaceBase):
         self._font = config["font"]
         self._font_size = config["font_size"]
 
-    def main_asking_menu(self, title: str, question: str, option_values: List[str]) -> str:
+    def _main_asking_menu(self, title: str, question: str, option_values: List[str]) -> str:
         '''
         Creates main asking menu for different questions.
 
@@ -72,7 +72,7 @@ class InterfaceTkinter(InterfaceBase):
 
         : return: (str) - user choice of which color they play.
         '''
-        return self.main_asking_menu(LabelValue.COLOR_TITLE,
+        return self._main_asking_menu(LabelValue.COLOR_TITLE,
                                      LabelValue.COLOR_QUESTION,
                                      [ButtonValue.WHITE, ButtonValue.BLACK])
     
@@ -82,6 +82,6 @@ class InterfaceTkinter(InterfaceBase):
 
         : return: (str) - user choice of program mode that will be run.
         '''
-        return self.main_asking_menu(LabelValue.MODE_TITLE,
+        return self._main_asking_menu(LabelValue.MODE_TITLE,
                                      LabelValue.MODE_QUESTION,
                                      [ButtonValue.AUTO_MODE, ButtonValue.SPEECH_RECOGNITION, ButtonValue.DETECTION_MODE])

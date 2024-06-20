@@ -21,7 +21,7 @@ class PiecesDetectionMMDetection(PiecesDetectionBase):
         : return: (None) - this function does not return any value.
         '''
         super().__init__(config)
-        self.board_config = load_config(config["chess_board_config"])
+        self._board_config = load_config(config["chess_board_config"])
 
     def detect(self, image: numpy.ndarray, color: str) -> Tuple[str, ChessBoard]:
         '''
@@ -33,14 +33,14 @@ class PiecesDetectionMMDetection(PiecesDetectionBase):
 
         : return: (Tuple[str, ChessBoard]) - FEN-position from the given image and filled ChessBoard.
         '''
-        model_script = self.config['parameters_path']
-        model_checkpoint = glob.glob(self.config['checkpoint_path'])[0]
+        model_script = self._config['parameters_path']
+        model_checkpoint = glob.glob(self._config['checkpoint_path'])[0]
         device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 
         inferencer = DetInferencer(model_script, model_checkpoint, device)
-        result = filter_detections(inferencer(image), self.config['iou_threshold'], self.config['score_threshold'])
+        result = filter_detections(inferencer(image), self._config['iou_threshold'], self._config['score_threshold'])
         
-        chess_board = ChessBoard(self.board_config, result['predictions'][0]['labels'], result['predictions'][0]['bboxes'], color)
+        chess_board = ChessBoard(self._board_config, result['predictions'][0]['labels'], result['predictions'][0]['bboxes'], color)
         fen_position = chess_board.detections_to_fen()
 
         return (fen_position, chess_board)

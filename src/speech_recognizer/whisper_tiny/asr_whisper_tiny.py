@@ -19,31 +19,31 @@ class SpeechRecognizerWhisper(SpeechRecognizerBase):
         : return: (None) - this function does not return any value.
         '''
         super().__init__(config)
-        self.audio_name = config["audio_name"]+'.wav'
-        self.model_name = config["model_name"]
-        self.model_path = '../assets/models/speech_recognition/'+self.model_name
-        self.model_params = config["model_parameters"]
-        if os.path.exists(self.model_path):
-            self.processor = WhisperProcessor.from_pretrained(self.model_path)
-            self.model = WhisperForConditionalGeneration.from_pretrained(self.model_path)
+        self._audio_name = config["audio_name"]+'.wav'
+        self._model_name = config["model_name"]
+        self._model_path = '../assets/models/speech_recognition/'+self._model_name
+        self._model_params = config["model_parameters"]
+        if os.path.exists(self._model_path):
+            self._processor = WhisperProcessor.from_pretrained(self._model_path)
+            self._model = WhisperForConditionalGeneration.from_pretrained(self._model_path)
         else:
-            Path(self.model_path).mkdir(parents=True, exist_ok=True)
-            self.processor = WhisperProcessor.from_pretrained("openai/whisper-tiny")
-            self.processor.save_pretrained(self.model_path)
+            Path(self._model_path).mkdir(parents=True, exist_ok=True)
+            self._processor = WhisperProcessor.from_pretrained("openai/whisper-tiny")
+            self._processor.save_pretrained(self._model_path)
 
-            self.model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-tiny")
-            self.model.save_pretrained(self.model_path)
+            self._model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-tiny")
+            self._model.save_pretrained(self._model_path)
 
     def record(self) -> Any:
         '''Records audio from micro.
         
         : return: (string) - name of recorded audio.
         '''
-        sample_rate = self.model_params["sample_rate"]
-        duration = self.model_params["duration"]
-        channels = self.model_params["channels"]
-        record_audio(self.audio_name, duration=duration, sample_rate=sample_rate, channels=channels)
-        return self.audio_name
+        sample_rate = self._model_params["sample_rate"]
+        duration = self._model_params["duration"]
+        channels = self._model_params["channels"]
+        record_audio(self._audio_name, duration=duration, sample_rate=sample_rate, channels=channels)
+        return self._audio_name
 
     def recognize(self, audio: Any) -> List[str]:
         '''Recognizes the given audio.
@@ -52,28 +52,28 @@ class SpeechRecognizerWhisper(SpeechRecognizerBase):
         
         : return: (List[str]) - recognized text in it.
         '''
-        num_beams   = self.model_params["num_beams"]
-        max_length  = self.model_params["max_length"]
-        sample_rate = self.model_params["sample_rate"]
+        num_beams   = self._model_params["num_beams"]
+        max_length  = self._model_params["max_length"]
+        sample_rate = self._model_params["sample_rate"]
 
-        waveform, cur_sample_rate = torchaudio.load(self.audio_name)
-        os.remove(self.audio_name)
+        waveform, cur_sample_rate = torchaudio.load(self._audio_name)
+        os.remove(self._audio_name)
 
         if cur_sample_rate != sample_rate:
             resampler = torchaudio.transforms.Resample(orig_freq=cur_sample_rate, new_freq=sample_rate)
             waveform = resampler(waveform)
 
-        input_features = self.processor(waveform.squeeze().numpy(), sampling_rate=sample_rate, return_tensors="pt").input_features
+        input_features = self._processor(waveform.squeeze().numpy(), sampling_rate=sample_rate, return_tensors="pt").input_features
 
         with torch.no_grad():
-            generated_ids = self.model.generate(
+            generated_ids = self._model.generate(
                 input_features,
                 num_beams=num_beams,
                 max_length=max_length,
                 num_return_sequences=num_beams
             )
 
-        transcriptions = list(self.processor.batch_decode(generated_ids, skip_special_tokens=True))
+        transcriptions = list(self._processor.batch_decode(generated_ids, skip_special_tokens=True))
         pattern = r'[^a-zA-Z0-9]'
         for i in range(len(transcriptions)): 
             transcriptions[i] = re.sub(pattern, '', transcriptions[i]).lower()

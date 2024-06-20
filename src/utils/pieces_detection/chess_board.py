@@ -20,13 +20,13 @@ class ChessBoard():
         except Exception:
             raise ValueError("Incorrect indexes in chess_board configuration file.")
         
-        self.pieces_indexes = config["pieces_indexes"]
-        self.pieces_names = config["pieces_names"]
-        self.board_fields = config["board_fields"]
-        self.board_constant = config["board_constant"]
-        self.labels = labels
-        self.bboxes = bboxes
-        self.color  = 'b' if color == ButtonValue.BLACK else 'w'
+        self._pieces_indexes = config["pieces_indexes"]
+        self._pieces_names = config["pieces_names"]
+        self._board_fields = config["board_fields"]
+        self._board_constant = config["board_constant"]
+        self._labels = labels
+        self._bboxes = bboxes
+        self._color  = 'b' if color == ButtonValue.BLACK else 'w'
 
     def detections_to_fen(self) -> str:
         '''
@@ -34,30 +34,30 @@ class ChessBoard():
 
         : return: (str) - FEN position for chosen color.
         '''
-        board_const = [i for i in self.pieces_indexes if self.pieces_indexes[i]==self.board_constant][0]
-        board_index = np.where(self.labels==board_const)[0][0]
-        self.board_bbox = self.bboxes[board_index]
+        board_const = [i for i in self._pieces_indexes if self._pieces_indexes[i]==self._board_constant][0]
+        board_index = np.where(self._labels==board_const)[0][0]
+        self._board_bbox = self._bboxes[board_index]
 
         chess_board = np.full((8, 8), None)
-        num_detections = len(self.bboxes)
+        num_detections = len(self._bboxes)
         for i in range(num_detections):
             if i != board_index:
-                piece_bbox = self.bboxes[i]
-                x, y = self.find_field_by_coordinates(self.board_bbox, piece_bbox)
-                label = self.pieces_names[self.pieces_indexes[self.labels[i]]]
+                piece_bbox = self._bboxes[i]
+                x, y = self._find_field_by_coordinates(self._board_bbox, piece_bbox)
+                label = self._pieces_names[self._pieces_indexes[self._labels[i]]]
                 if max(x, y) < 8 and min(x, y) >= 0:
                     chess_board[y][x] = label
 
-        if self.color == 'b':
+        if self._color == 'b':
             chess_board = np.rot90(chess_board, 2)
 
         if (chess_board == None).all():
             raise ValueError("Empty board.")
 
-        return self.filled_board_to_fen(chess_board)
+        return self._filled_board_to_fen(chess_board)
 
     @staticmethod
-    def find_field_by_coordinates(board_bbox: np.ndarray, piece_bbox: np.ndarray) -> np.ndarray:
+    def _find_field_by_coordinates(board_bbox: np.ndarray, piece_bbox: np.ndarray) -> np.ndarray:
         '''
         Finds location of the piece on chess board by their bbox-coordinates got from the model.
 
@@ -73,7 +73,7 @@ class ChessBoard():
 
         return x_field, y_field
     
-    def filled_board_to_fen(self, chess_board: np.ndarray) -> str:
+    def _filled_board_to_fen(self, chess_board: np.ndarray) -> str:
         '''
         Auxiliary function that converts filled chess_board to FEN positions.
 
@@ -83,16 +83,16 @@ class ChessBoard():
         '''
         res_fen = ""
         for i in range(8):
-            res_fen += self.chess_row_to_fen_row(chess_board[:][i])
+            res_fen += self._chess_row_to_fen_row(chess_board[:][i])
             if i != 7:
                 res_fen += '/'
         
-        res_fen = res_fen + f' {self.color} - - 0 30'
+        res_fen = res_fen + f' {self._color} - - 0 30'
         
         return res_fen
 
     @staticmethod
-    def chess_row_to_fen_row(chess_row: np.ndarray) -> str:
+    def _chess_row_to_fen_row(chess_row: np.ndarray) -> str:
         '''
         Auxiliary function that converts one row on chess board to the part of FEN.
 
@@ -126,19 +126,19 @@ class ChessBoard():
         if not is_move_valid(move):
             raise ValueError("Invalid move. Cannot convert to coordinates.")
 
-        x1_board, y1_board = self.board_fields[move[0]], 8-int(move[1])
-        x2_board, y2_board = self.board_fields[move[2]], 8-int(move[3])
+        x1_board, y1_board = self._board_fields[move[0]], 8-int(move[1])
+        x2_board, y2_board = self._board_fields[move[2]], 8-int(move[3])
 
-        if self.color == 'b':
+        if self._color == 'b':
             x1_board = 7-x1_board
             x2_board = 7-x2_board
             y1_board = 7-y1_board
             y2_board = 7-y2_board
 
-        x1 = self.board_bbox[0] + (2*x1_board+1)/16*(self.board_bbox[2]-self.board_bbox[0])
-        y1 = self.board_bbox[1] + (2*y1_board+1)/16*(self.board_bbox[3]-self.board_bbox[1])
-        x2 = self.board_bbox[0] + (2*x2_board+1)/16*(self.board_bbox[2]-self.board_bbox[0])
-        y2 = self.board_bbox[1] + (2*y2_board+1)/16*(self.board_bbox[3]-self.board_bbox[1])
+        x1 = self._board_bbox[0] + (2*x1_board+1)/16*(self._board_bbox[2]-self._board_bbox[0])
+        y1 = self._board_bbox[1] + (2*y1_board+1)/16*(self._board_bbox[3]-self._board_bbox[1])
+        x2 = self._board_bbox[0] + (2*x2_board+1)/16*(self._board_bbox[2]-self._board_bbox[0])
+        y2 = self._board_bbox[1] + (2*y2_board+1)/16*(self._board_bbox[3]-self._board_bbox[1])
 
         return ((int(x1), int(y1)), (int(x2), int(y2)))
 

@@ -5,7 +5,7 @@ import time
 class MouseClicker():
     '''Class for mouse clicker.'''
     def __init__(self, config: dict):
-        self.config = config
+        self._config = config
 
     def make_move(self, coordinates: Tuple[Tuple[int, int], Tuple[int, int]]) -> None:
         '''
@@ -19,7 +19,7 @@ class MouseClicker():
         ((x1, y1), (x2, y2)) = coordinates
         
         pyautogui.click(x=x1, y=y1)
-        time.sleep(self.config["move_time"])
+        time.sleep(self._config["move_time"])
         pyautogui.click(x=x2, y=y2)
 
         print("Success!")

@@ -6,7 +6,7 @@ from utils.pieces_detection.chess_board import ChessBoard
 class PiecesDetectionBase(ABC):
     '''Base class for pieces detection.'''
     def __init__(self, config: dict) -> None:
-        self.config = config
+        self._config = config
 
     @abstractmethod
     def detect(self, image: numpy.ndarray) -> Tuple[str, ChessBoard]:
