@@ -1,0 +1,47 @@
+{
+    "board_constant": "chess-board",
+    
+    "pieces_names": {
+        "black-bishop": "b",
+        "black-king": "k",
+        "black-knight": "n",
+        "black-pawn": "p",
+        "black-queen": "q",
+        "black-rook": "r",
+        "white-bishop": "B",
+        "white-king": "K",
+        "white-knight": "N",
+        "white-pawn": "P",
+        "white-queen": "Q",
+        "white-rook": "R"
+    },
+
+    "pieces_indexes": {
+        "0":  "pieces",
+        "1":  "bishop",
+        "2":  "black-bishop",
+        "3":  "black-king",
+        "4":  "black-knight",
+        "5":  "black-pawn",
+        "6":  "black-queen",
+        "7":  "black-rook",
+        "8":  "white-bishop",
+        "9":  "white-king",
+        "10": "white-knight",
+        "11": "white-pawn",
+        "12": "white-queen",
+        "13": "white-rook",
+        "14": "chess-board"
+    },
+
+    "board_fields": {
+        "a": 0,
+        "b": 1,
+        "c": 2,
+        "d": 3,
+        "e": 4,
+        "f": 5,
+        "g": 6,
+        "h": 7
+    }
+}

@@ -2,62 +2,28 @@ import numpy as np
 from typing import Tuple
 from utils.interface_utils import ButtonValue
 
-pieces_names = {
-    'black-bishop': 'b',
-    'black-king': 'k',
-    'black-knight': 'n',
-    'black-pawn': 'p',
-    'black-queen': 'q',
-    'black-rook': 'r',
-    'white-bishop': 'B',
-    'white-king': 'K',
-    'white-knight': 'N',
-    'white-pawn': 'P',
-    'white-queen': 'Q',
-    'white-rook': 'R',
-}
-
-pieces_indexes = {
-    0:  'pieces',
-    1:  'bishop',
-    2:  'black-bishop',
-    3:  'black-king',
-    4:  'black-knight',
-    5:  'black-pawn',
-    6:  'black-queen',
-    7:  'black-rook',
-    8:  'white-bishop',
-    9:  'white-king',
-    10: 'white-knight',
-    11: 'white-pawn',
-    12: 'white-queen',
-    13: 'white-rook',
-    14: 'chess-board',
-}
-
-board_fields = {
-    'a': 0,
-    'b': 1,
-    'c': 2,
-    'd': 3,
-    'e': 4,
-    'f': 5,
-    'g': 6,
-    'h': 7,
-}
-
 class ChessBoard():
     '''Class for chess board'''
 
-    def __init__(self, labels: np.ndarray, bboxes: np.ndarray, color: str) -> None:
+    def __init__(self, config: dict, labels: np.ndarray, bboxes: np.ndarray, color: str) -> None:
         '''Initializes an instance of ChessBoard.
-    
+
+        : param config: (dict) - chess board configuration object.
         : param labels: (numpy.ndarray) - labels received from the model.
         : param bboxes: (numpy.ndarray) - bboxes received from the model.
         : param color: (bool) - which color user play.
 
         : return: (None) - this function doesn't return any value.
         '''
+        try:
+            config["pieces_indexes"] = {int(key): value for key, value in config["pieces_indexes"].items()}
+        except Exception:
+            raise ValueError("Incorrect indexes in chess_board configuration file.")
+        
+        self.pieces_indexes = config["pieces_indexes"]
+        self.pieces_names = config["pieces_names"]
+        self.board_fields = config["board_fields"]
+        self.board_constant = config["board_constant"]
         self.labels = labels
         self.bboxes = bboxes
         self.color  = 'b' if color == ButtonValue.BLACK else 'w'
@@ -68,7 +34,7 @@ class ChessBoard():
 
         : return: (str) - FEN position for chosen color.
         '''
-        board_const = [i for i in pieces_indexes if pieces_indexes[i]=='chess-board'][0]
+        board_const = [i for i in self.pieces_indexes if self.pieces_indexes[i]==self.board_constant][0]
         board_index = np.where(self.labels==board_const)[0][0]
         self.board_bbox = self.bboxes[board_index]
 
@@ -78,7 +44,7 @@ class ChessBoard():
             if i != board_index:
                 piece_bbox = self.bboxes[i]
                 x, y = self.find_field_by_coordinates(self.board_bbox, piece_bbox)
-                label = pieces_names[pieces_indexes[self.labels[i]]]
+                label = self.pieces_names[self.pieces_indexes[self.labels[i]]]
                 if max(x, y) < 8 and min(x, y) >= 0:
                     chess_board[y][x] = label
 
@@ -160,8 +126,8 @@ class ChessBoard():
         if not is_move_valid(move):
             raise ValueError("Invalid move. Cannot convert to coordinates.")
 
-        x1_board, y1_board = board_fields[move[0]], 8-int(move[1])
-        x2_board, y2_board = board_fields[move[2]], 8-int(move[3])
+        x1_board, y1_board = self.board_fields[move[0]], 8-int(move[1])
+        x2_board, y2_board = self.board_fields[move[2]], 8-int(move[3])
 
         if self.color == 'b':
             x1_board = 7-x1_board
