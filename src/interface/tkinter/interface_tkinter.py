@@ -1,5 +1,5 @@
 import tkinter as tk
-from typing import List, Any
+from typing import List
 from interface.interface_base import InterfaceBase
 from utils.interface_utils import ButtonValue, LabelValue
 

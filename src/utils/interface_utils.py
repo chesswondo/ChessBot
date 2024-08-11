@@ -32,14 +32,12 @@ class LabelValue(str, Enum):
     Enumeration for label values.
 
     Possible values:
-    - LabelValue.COLOR_TITLE: "Choose the color"
+    - LabelValue.TITLE: "Main menu"
     - LabelValue.COLOR_QUESTION: "What color do you play?"
-    - LabelValue.MODE_TITLE: "Choose the mode"
     - LabelValue.MODE_QUESTION: "Choose the program mode"
     """
-    COLOR_TITLE = "Choose the color"
+    TITLE = "Main menu"
     COLOR_QUESTION = "What color do you play?"
-    MODE_TITLE = "Choose the mode"
     MODE_QUESTION = "Choose the program mode"
 
     def __eq__(self, other):

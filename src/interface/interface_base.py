@@ -6,6 +6,10 @@ class InterfaceBase(ABC):
         self._config = config
 
     @abstractmethod
+    def run(self) -> None:
+        '''Starts user interface.'''
+
+    @abstractmethod
     def get_color(self) -> str:
         '''Gets color from user.'''
 

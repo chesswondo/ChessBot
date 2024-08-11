@@ -5,6 +5,7 @@ from mss import mss
 from IPython.display import display
 import chess
 import time
+import threading
 
 from utils.clicker import MouseClicker
 from utils.interface_utils import ButtonValue
@@ -36,8 +37,8 @@ def run_chess_demo(
         return
     
     program_interface = create_interface_engine(config)
-    color = program_interface.get_color()
-    program_mode = program_interface.get_program_mode()
+    tk_thread = threading.Thread(target=program_interface.run, daemon=True)
+    tk_thread.start()
 
     clicker_config = load_config('../assets/configs/clicker/config.json')
     clicker = MouseClicker(clicker_config)
@@ -55,6 +56,12 @@ def run_chess_demo(
 
     while True:
         try:
+            with threading.Lock():
+                if program_interface.is_on_pause():
+                    continue
+                color = program_interface.get_color()
+                program_mode = program_interface.get_program_mode()
+            
             try:
                 sct_img = np.array(sct.grab(monitor))
                 sct_img = cv2.cvtColor(sct_img, cv2.COLOR_BGRA2BGR)
@@ -92,6 +99,7 @@ def run_chess_demo(
                 best_move = chess_engine.get_best_move(fen_position)
                 board = chess.Board(fen_position)
                 display(board)
+                time.sleep(config["seconds_between_detections"])
 
         except Exception as e:
             print(f"An unknown error occurred. Error message:\n{str(e)}")
