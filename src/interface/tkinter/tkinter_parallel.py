@@ -30,8 +30,8 @@ class TkinterParallel(InterfaceBase):
             pass
 
         def on_selection():
-            self._color = left_var.get()
-            self._mode = right_var.get()
+            self._color = color_var.get()
+            self._mode = mode_var.get()
             print(f"Color: {self._color}, Program mode: {self._mode}")
 
         def toggle_pause_run():
@@ -46,45 +46,45 @@ class TkinterParallel(InterfaceBase):
         window.geometry(self._window_size)
         window.resizable(False, False)
 
-        # Set up the left question with two radio buttons
-        left_question_frame = tk.Frame(window)
-        left_question_frame.pack(side=tk.LEFT, padx=20, pady=20)
+        # Set up the color question
+        color_frame = tk.Frame(window)
+        color_frame.pack(side=tk.LEFT, padx=20, pady=20)
 
-        left_label = tk.Label(left_question_frame, text=LabelValue.COLOR_QUESTION)
-        left_label.pack(anchor=tk.W)
+        color_label = tk.Label(color_frame, text=LabelValue.COLOR_QUESTION)
+        color_label.pack(anchor=tk.W)
 
-        left_var = tk.StringVar(value=ButtonValue.WHITE)  # Default selection
+        color_values = [ButtonValue.WHITE, ButtonValue.BLACK]
+        color_var = tk.StringVar(value=color_values[0])  # default selection
+        for i in range(2):
+            color_button = tk.Radiobutton(color_frame,
+                                          text=color_values[i],
+                                          variable=color_var,
+                                          value=color_values[i],
+                                          command=on_selection)
+            color_button.pack(anchor=tk.W)
 
-        left_radio1 = tk.Radiobutton(left_question_frame, text=ButtonValue.WHITE, variable=left_var, value=ButtonValue.WHITE, command=on_selection)
-        left_radio1.pack(anchor=tk.W)
+        # Set up the mode question
+        mode_frame = tk.Frame(window)
+        mode_frame.pack(side=tk.RIGHT, padx=20, pady=20)
 
-        left_radio2 = tk.Radiobutton(left_question_frame, text=ButtonValue.BLACK, variable=left_var, value=ButtonValue.BLACK, command=on_selection)
-        left_radio2.pack(anchor=tk.W)
+        mode_label = tk.Label(mode_frame, text=LabelValue.MODE_QUESTION)
+        mode_label.pack(anchor=tk.W)
 
-        # Set up the right question with three radio buttons
-        right_question_frame = tk.Frame(window)
-        right_question_frame.pack(side=tk.RIGHT, padx=20, pady=20)
-
-        right_label = tk.Label(right_question_frame, text=LabelValue.MODE_QUESTION)
-        right_label.pack(anchor=tk.W)
-
-        right_var = tk.StringVar(value=ButtonValue.AUTO_MODE)  # Default selection
-
-        right_radio1 = tk.Radiobutton(right_question_frame, text=ButtonValue.AUTO_MODE, variable=right_var, value=ButtonValue.AUTO_MODE, command=on_selection)
-        right_radio1.pack(anchor=tk.W)
-
-        right_radio2 = tk.Radiobutton(right_question_frame, text=ButtonValue.SPEECH_RECOGNITION, variable=right_var, value=ButtonValue.SPEECH_RECOGNITION, command=on_selection)
-        right_radio2.pack(anchor=tk.W)
-
-        right_radio3 = tk.Radiobutton(right_question_frame, text=ButtonValue.DETECTION_MODE, variable=right_var, value=ButtonValue.DETECTION_MODE, command=on_selection)
-        right_radio3.pack(anchor=tk.W)
+        mode_values = [ButtonValue.AUTO_MODE, ButtonValue.SPEECH_RECOGNITION, ButtonValue.DETECTION_MODE]
+        mode_var = tk.StringVar(value=mode_values[0])  # default selection
+        for i in range(3):
+            mode_button = tk.Radiobutton(mode_frame,
+                                         text=mode_values[i],
+                                         variable=mode_var,
+                                         value=mode_values[i],
+                                         command=on_selection)
+            mode_button.pack(anchor=tk.W)
 
         # Add the Pause/Run switch below the radio buttons
         switch_frame = tk.Frame(window)
         switch_frame.pack(side=tk.BOTTOM, pady=20)
 
-        switch_var = tk.StringVar(value="Run")  # Default state
-
+        switch_var = tk.StringVar(value="Run")  # default state
         switch_button = tk.Button(switch_frame, textvariable=switch_var, command=toggle_pause_run, width=10)
         switch_button.pack()
 

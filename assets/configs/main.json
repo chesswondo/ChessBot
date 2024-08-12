@@ -13,5 +13,6 @@
     },
 
     "wait_after_click": 0.1,
-    "seconds_between_detections": 0.5
+    "seconds_between_detections": 0.5,
+    "seconds_on_pause": 1
 }

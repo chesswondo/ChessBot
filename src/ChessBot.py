@@ -58,6 +58,7 @@ def run_chess_demo(
         try:
             with threading.Lock():
                 if program_interface.is_on_pause():
+                    time.sleep(config["seconds_on_pause"])
                     continue
                 color = program_interface.get_color()
                 program_mode = program_interface.get_program_mode()
