@@ -28,10 +28,11 @@ class TkinterParallel(InterfaceBase):
             self._is_running = False
             window.destroy()
 
-        def on_selection():
+        def color_selection():
             self._color = color_var.get()
+
+        def mode_selection():
             self._mode = mode_var.get()
-            print(f"Color: {self._color}, Program mode: {self._mode}")
 
         def toggle_pause_run():
             self._pause = not self._pause
@@ -61,7 +62,7 @@ class TkinterParallel(InterfaceBase):
                                           text=color_values[i],
                                           variable=color_var,
                                           value=color_values[i],
-                                          command=on_selection)
+                                          command=color_selection)
             color_button.pack(anchor=tk.W)
 
         # Set up the mode question
@@ -79,7 +80,7 @@ class TkinterParallel(InterfaceBase):
                                          text=mode_values[i],
                                          variable=mode_var,
                                          value=mode_values[i],
-                                         command=on_selection)
+                                         command=mode_selection)
             mode_button.pack(anchor=tk.W)
 
         # Add the Pause/Run switch
@@ -106,7 +107,7 @@ class TkinterParallel(InterfaceBase):
         '''
         Gets program mode from user.
 
-        : return: (str) - user choice of program mode that will be run.
+        : return: (str) - user choice of which program mode to run.
         '''
         return self._mode
     
@@ -114,7 +115,7 @@ class TkinterParallel(InterfaceBase):
         '''
         Gets program state from user.
 
-        : return: (bool) - user choice whether the program will be active or not.
+        : return: (bool) - window state whether the program is paused or not.
         '''
         return self._pause
     

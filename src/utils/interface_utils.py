@@ -38,7 +38,7 @@ class LabelValue(str, Enum):
     """
     TITLE = "Main menu"
     COLOR_QUESTION = "What color do you play?"
-    MODE_QUESTION = "Choose the program mode"
+    MODE_QUESTION = "Choose the program mode:"
 
     def __eq__(self, other):
         return self.value == other
