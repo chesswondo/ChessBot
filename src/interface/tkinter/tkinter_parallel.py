@@ -18,7 +18,6 @@ class TkinterParallel(InterfaceBase):
         self._window_size = config["window_size"]
         self._font = config["font"]
         self._font_size = config["font_size"]
-        self._pause = True
 
     def run(self) -> None:
         '''
@@ -27,7 +26,8 @@ class TkinterParallel(InterfaceBase):
         : return: (None) - this function does not return any value.
         '''
         def on_close():
-            pass
+            self._is_running = False
+            window.destroy()
 
         def on_selection():
             self._color = color_var.get()
@@ -40,7 +40,8 @@ class TkinterParallel(InterfaceBase):
                 switch_var.set("Run")
             else:
                 switch_var.set("Pause")
-    
+        
+        self._is_running = True
         window = tk.Tk()
         window.title(LabelValue.TITLE)
         window.geometry(self._window_size)
@@ -55,6 +56,7 @@ class TkinterParallel(InterfaceBase):
 
         color_values = [ButtonValue.WHITE, ButtonValue.BLACK]
         color_var = tk.StringVar(value=color_values[0])  # default selection
+        self._color = color_var.get()
         for i in range(2):
             color_button = tk.Radiobutton(color_frame,
                                           text=color_values[i],
@@ -72,6 +74,7 @@ class TkinterParallel(InterfaceBase):
 
         mode_values = [ButtonValue.AUTO_MODE, ButtonValue.SPEECH_RECOGNITION, ButtonValue.DETECTION_MODE]
         mode_var = tk.StringVar(value=mode_values[0])  # default selection
+        self._mode = mode_var.get()
         for i in range(3):
             mode_button = tk.Radiobutton(mode_frame,
                                          text=mode_values[i],
@@ -80,10 +83,11 @@ class TkinterParallel(InterfaceBase):
                                          command=on_selection)
             mode_button.pack(anchor=tk.W)
 
-        # Add the Pause/Run switch below the radio buttons
+        # Add the Pause/Run switch
         switch_frame = tk.Frame(window)
         switch_frame.pack(side=tk.BOTTOM, pady=20)
 
+        self._pause = True
         switch_var = tk.StringVar(value="Run")  # default state
         switch_button = tk.Button(switch_frame, textvariable=switch_var, command=toggle_pause_run, width=10)
         switch_button.pack()
@@ -114,3 +118,11 @@ class TkinterParallel(InterfaceBase):
         : return: (bool) - user choice whether the program will be active or not.
         '''
         return self._pause
+    
+    def is_running(self) -> bool:
+        '''
+        Gets program state from user.
+
+        : return: (bool) - window state whether the program is running or not.
+        '''
+        return self._is_running

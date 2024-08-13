@@ -57,6 +57,8 @@ def run_chess_demo(
     while True:
         try:
             with threading.Lock():
+                if not program_interface.is_running():
+                    break
                 if program_interface.is_on_pause():
                     time.sleep(config["seconds_on_pause"])
                     continue

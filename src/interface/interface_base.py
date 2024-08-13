@@ -16,3 +16,11 @@ class InterfaceBase(ABC):
     @abstractmethod
     def get_program_mode(self) -> str:
         '''Gets program mode from user.'''
+
+    @abstractmethod
+    def is_on_pause(self) -> bool:
+        '''Gets program state from user.'''
+    
+    @abstractmethod
+    def is_running(self) -> bool:
+        '''Gets program state from user.'''
