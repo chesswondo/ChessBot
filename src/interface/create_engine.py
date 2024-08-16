@@ -1,5 +1,5 @@
 from interface.interface_base import InterfaceBase
-from interface.tkinter.tkinter_parallel import TkinterParallel
+from interface.tkinter.interface_tkinter import InterfaceTkinter
 from utils.common_utils import load_config
 
 def create_interface_engine(config: dict) -> InterfaceBase:
@@ -13,4 +13,4 @@ def create_interface_engine(config: dict) -> InterfaceBase:
     interface_config = load_config(f'../assets/configs/interface/{config["interface"]["interface_type"]}/config.json')
 
     if config["interface"]["interface_type"] == "tkinter":
-        return TkinterParallel(interface_config)
+        return InterfaceTkinter(interface_config)
