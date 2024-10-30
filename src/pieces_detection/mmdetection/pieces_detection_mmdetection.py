@@ -27,7 +27,6 @@ class PiecesDetectionMMDetection(PiecesDetectionBase):
         '''
         Detects chess pieces on the given image.
         
-        : param board_config: (dict) - chess board configuration object.
         : param image: (numpy.ndarray) - image to make detections on it.
         : color: (str) - color which user plays.
 
